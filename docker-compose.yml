@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  # ── Database Service ────────────────────────────────────────────────────────
+  db:
+    image: postgres:15-alpine
+    container_name: vessel_db_prod
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: vessel_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d vessel_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ── Backend Service ─────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vessel_backend_prod
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgrespassword@db:5432/vessel_db
+      - CORS_ORIGINS=http://localhost,http://localhost:80,http://localhost:8080
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    # Auto-run database migrations and seed routing corridors on startup
+    command: >
+      sh -c "alembic upgrade head && 
+            python -m app.seeds.seed_routes && 
+            uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/ports"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ── Frontend Service ────────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000
+    container_name: vessel_frontend_prod
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

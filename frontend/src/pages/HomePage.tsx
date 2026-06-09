@@ -408,28 +408,44 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Links */}
-            <div className="flex items-center gap-6 text-xs text-muted-foreground">
-              <Link to="/dashboard" className="hover:text-foreground transition-colors">Dashboard</Link>
-              <Link to="/upload" className="hover:text-foreground transition-colors">Upload</Link>
-              <Link to="/route-planner" className="hover:text-foreground transition-colors">Route Planner</Link>
-            </div>
-
-            {/* Entity attribution + Social */}
-            <div className="text-center sm:text-right space-y-1.5">
-              <p className="text-[11px] text-muted-foreground/70 leading-snug">
+            {/* Entity attribution + Social + Deployment & Copyright (replacing Links & Meta, made bigger) */}
+            <div className="text-center sm:text-right space-y-2.5 max-w-lg">
+              <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
                 VPRO is part of the{" "}
                 <a
                   href="https://asmitlabs.me"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[hsl(210,70%,60%)] hover:text-[hsl(210,70%,50%)] font-semibold transition-colors"
+                  className="text-[hsl(210,70%,60%)] hover:text-[hsl(210,70%,50%)] font-bold transition-colors"
                 >
                   AsmitLabs
                 </a>{" "}
-                technology ecosystem created by Asmit Bhandari.
+                technology ecosystem created by{" "}
+                <a
+                  href="https://github.com/AsmitBhandari"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[hsl(210,70%,60%)] hover:text-[hsl(210,70%,50%)] font-bold transition-colors"
+                >
+                  Asmit Bhandari
+                </a>.
               </p>
-              <div className="flex items-center justify-center sm:justify-end gap-3">
+              
+              <div className="flex flex-col sm:flex-row items-center sm:justify-end gap-x-4 gap-y-1.5 text-xs sm:text-sm text-muted-foreground font-medium">
+                <span>
+                  Deployed on{" "}
+                  <a 
+                    href="https://vpro.asmitlabs.me" 
+                    className="text-foreground hover:text-[hsl(210,70%,60%)] transition-colors underline decoration-muted-foreground/30 font-semibold"
+                  >
+                    vpro.asmitlabs.me
+                  </a>
+                </span>
+                <span className="hidden sm:inline text-muted-foreground/30">|</span>
+                <span>&copy; {new Date().getFullYear()} VPRO. All rights reserved.</span>
+              </div>
+
+              <div className="flex items-center justify-center sm:justify-end gap-3.5 pt-0.5">
                 <a
                   href="https://github.com/AsmitBhandari"
                   target="_blank"
@@ -453,12 +469,6 @@ export default function HomePage() {
                   </svg>
                 </a>
               </div>
-              <p className="text-[11px] text-muted-foreground/60">
-                Deployed on <span className="text-muted-foreground font-medium">vpro.asmitlabs.me</span>
-              </p>
-              <p className="text-[10px] text-muted-foreground/40">
-                &copy; {new Date().getFullYear()} VPRO. All rights reserved.
-              </p>
             </div>
           </div>
         </div>

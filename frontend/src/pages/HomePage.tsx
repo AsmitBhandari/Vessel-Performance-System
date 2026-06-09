@@ -380,6 +380,17 @@ export default function HomePage() {
             {/* Meta */}
             <div className="text-center sm:text-right">
               <p className="text-[11px] text-muted-foreground/60">
+                Powered by{" "}
+                <a 
+                  href="https://asmitlabs.me" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-[hsl(210,70%,60%)] hover:text-[hsl(210,70%,50%)] font-semibold transition-colors"
+                >
+                  Asmit Labs
+                </a>
+              </p>
+              <p className="text-[11px] text-muted-foreground/60 mt-0.5">
                 Deployed on <span className="text-muted-foreground font-medium">vpro.asmitlabs.me</span>
               </p>
               <p className="text-[10px] text-muted-foreground/40 mt-0.5">

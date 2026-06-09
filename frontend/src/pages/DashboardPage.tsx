@@ -22,6 +22,7 @@ import type {
 } from "@/types";
 import { FuelTrendChart, SpeedTrendChart, WeatherTrendChart } from "@/components/SvgCharts";
 import RouteMap from "@/components/RouteMap";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 // ── Formatting Helpers ──────────────────────────────────────────────────────
 
@@ -77,6 +78,8 @@ function Metric({ label, value, unit }: { label: string; value: string; unit?: s
 // ── Main Dashboard Page ─────────────────────────────────────────────────────
 
 export default function DashboardPage() {
+  usePageTitle("Dashboard");
+
   // Filter state
   const [vessels, setVessels] = useState<VesselInfo[]>([]);
   const [selectedVessel, setSelectedVessel] = useState<VesselInfo | null>(null);
@@ -159,7 +162,9 @@ export default function DashboardPage() {
         </div>
         <h2 className="text-lg font-semibold mb-1">No Analytics Available</h2>
         <p className="text-sm text-muted-foreground max-w-sm">
-          Upload a vessel noon report to begin analysis. Navigate to the Upload Reports tab to get started.
+          Upload a vessel noon report to begin analysis. Head to the{" "}
+          <a href="/upload" className="text-[hsl(210,70%,60%)] underline hover:text-[hsl(210,70%,50%)] transition-colors">Upload Reports</a>{" "}
+          page to get started.
         </p>
       </div>
     );

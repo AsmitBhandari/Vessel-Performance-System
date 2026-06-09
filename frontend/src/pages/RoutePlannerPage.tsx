@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button";
 import { getPorts, planRoute } from "@/services/api";
 import type { PortInfo, PlannedRouteInfo, RoutePlanResult } from "@/types";
 import PlannedRouteMap from "@/components/PlannedRouteMap";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 export default function RoutePlannerPage() {
+  usePageTitle("Route Planner");
+
   // Ports state
   const [ports, setPorts] = useState<PortInfo[]>([]);
   const [originId, setOriginId] = useState<string>("");

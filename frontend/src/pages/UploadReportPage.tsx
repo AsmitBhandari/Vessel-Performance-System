@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ingestReport } from "@/services/api";
 import type { IngestionResponse } from "@/types";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 const ACCEPTED_TYPES = ".xlsx,.xls";
 const ACCEPTED_EXTENSIONS = ["xlsx", "xls"];
@@ -21,6 +22,8 @@ function formatFileSize(bytes: number): string {
 }
 
 export default function UploadReportPage() {
+  usePageTitle("Upload");
+
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [result, setResult] = useState<IngestionResponse | null>(null);

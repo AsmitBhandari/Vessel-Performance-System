@@ -25,7 +25,7 @@ export default function AppLayout() {
             <img 
               src="/logo.png" 
               className="h-8 w-auto object-contain transition-transform duration-200 group-hover:scale-105" 
-              alt="V-PRO Logo" 
+              alt="VPRO Maritime Analytics Platform Logo" 
             />
             <div>
               <h1 className="text-sm font-bold tracking-tight leading-none">

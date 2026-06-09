@@ -5,27 +5,92 @@
     <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="apple-touch-icon" href="/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- Robots & Crawlability -->
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://vpro.asmitlabs.me/" />
+
+    <!-- Asset Preload -->
+    <link rel="preload" as="image" href="/logo.png" />
+
     <!-- Primary Meta Tags -->
-    <title>VPRO — Voyage Performance &amp; Route Optimization</title>
-    <meta name="title" content="VPRO — Voyage Performance &amp; Route Optimization" />
+    <title>VPRO | Maritime Voyage Performance &amp; Route Optimization Platform</title>
+    <meta name="title" content="VPRO | Maritime Voyage Performance &amp; Route Optimization Platform" />
     <meta name="description" content="VPRO (Voyage Performance &amp; Route Optimization) is a professional maritime analytics platform. Optimize vessel performance, track fuel efficiency trends, ingest noon reports, and plan historical shipping corridors." />
     <meta name="keywords" content="VPRO, vessel performance, voyage optimization, route planning, noon reports, maritime analytics, fuel efficiency, shipping corridors" />
-    <meta name="author" content="Asmit Labs" />
+    <meta name="author" content="Asmit Bhandari — AsmitLabs Ecosystem" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="VPRO" />
     <meta property="og:url" content="https://vpro.asmitlabs.me/" />
-    <meta property="og:title" content="VPRO — Voyage Performance &amp; Route Optimization" />
+    <meta property="og:title" content="VPRO | Maritime Voyage Performance &amp; Route Optimization Platform" />
     <meta property="og:description" content="Optimize vessel performance, track fuel efficiency trends, ingest noon reports, and plan historical shipping corridors." />
     <meta property="og:image" content="https://vpro.asmitlabs.me/logo.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://vpro.asmitlabs.me/" />
-    <meta property="twitter:title" content="VPRO — Voyage Performance &amp; Route Optimization" />
+    <meta property="twitter:title" content="VPRO | Maritime Voyage Performance &amp; Route Optimization Platform" />
     <meta property="twitter:description" content="Optimize vessel performance, track fuel efficiency trends, ingest noon reports, and plan historical shipping corridors." />
     <meta property="twitter:image" content="https://vpro.asmitlabs.me/logo.png" />
+
+    <!-- Future SEO Architecture Comments:
+         - Future SEO enhancement: Consider React Helmet or SSR migration for route-level metadata.
+         - Future improvement: Next.js or Astro migration could improve route indexing performance.
+    -->
+
+    <!-- Structured Data: SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "VPRO",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "url": "https://vpro.asmitlabs.me",
+      "creator": {
+        "@type": "Person",
+        "name": "Asmit Bhandari",
+        "url": "https://asmitlabs.me"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "AsmitLabs",
+        "url": "https://asmitlabs.me"
+      },
+      "description": "VPRO is a maritime voyage performance and route optimization platform for vessel analytics, fuel efficiency monitoring, noon report ingestion, operational intelligence, and historical shipping corridor analysis.",
+      "sameAs": [
+        "https://github.com/AsmitBhandari",
+        "https://www.linkedin.com/in/asmit-bhandari-841578331/"
+      ]
+    }
+    </script>
+
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "AsmitLabs",
+      "url": "https://asmitlabs.me",
+      "founder": {
+        "@type": "Person",
+        "name": "Asmit Bhandari",
+        "sameAs": [
+          "https://github.com/AsmitBhandari",
+          "https://www.linkedin.com/in/asmit-bhandari-841578331/"
+        ]
+      },
+      "sameAs": [
+        "https://vpro.asmitlabs.me",
+        "https://github.com/AsmitBhandari",
+        "https://www.linkedin.com/in/asmit-bhandari-841578331/"
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="app"></div>

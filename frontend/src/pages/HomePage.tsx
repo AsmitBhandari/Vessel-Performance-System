@@ -67,10 +67,9 @@ function StepCard({
 
 // ── Main Page ───────────────────────────────────────────────────────────────
 
-// ── Main Page ───────────────────────────────────────────────────────────────
-
 export default function HomePage() {
-  usePageTitle("Home");
+  // Full official product title for search engine indexing
+  usePageTitle("VPRO | Maritime Voyage Performance & Route Optimization Platform", true);
 
   return (
     <div className="min-h-screen">
@@ -86,7 +85,7 @@ export default function HomePage() {
             <img 
               src="/logo.png" 
               className="h-16 w-auto object-contain mb-4" 
-              alt="V-PRO Logo" 
+              alt="VPRO Maritime Analytics Platform Logo" 
             />
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[hsl(210,70%,50%)]/10 border border-[hsl(210,70%,50%)]/20">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[hsl(210,70%,60%)]">
@@ -151,10 +150,49 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── About VPRO ─────────────────────────────────────────────────────── */}
+      <section id="about-vpro" className="border-t border-border/30" aria-labelledby="about-vpro-heading">
+        <div className="max-w-[1100px] mx-auto px-4 sm:px-6 py-14">
+          <div className="max-w-[760px]">
+            <h2 id="about-vpro-heading" className="text-xl font-bold tracking-tight mb-4">
+              About VPRO
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+              VPRO is a maritime voyage performance and route optimization platform developed under the{" "}
+              <a
+                href="https://asmitlabs.me"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[hsl(210,70%,60%)] hover:text-[hsl(210,70%,50%)] transition-colors font-medium"
+              >
+                AsmitLabs
+              </a>{" "}
+              ecosystem by{" "}
+              <a
+                href="https://github.com/AsmitBhandari"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[hsl(210,70%,60%)] hover:text-[hsl(210,70%,50%)] transition-colors font-medium"
+              >
+                Asmit Bhandari
+              </a>.
+              The platform enables shipping operators and analysts to process vessel noon reports, monitor
+              operational KPIs, evaluate historical shipping corridors, and improve voyage planning efficiency
+              through data-driven vessel performance analytics and operational intelligence.
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              VPRO is part of the broader AsmitLabs ecosystem focused on software engineering, AI systems,
+              analytics platforms, and experimental digital products. As a maritime analytics platform, VPRO
+              is designed to bring voyage optimization software capabilities to modern fleet operations.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ── Platform Overview ──────────────────────────────────────────────── */}
-      <section className="max-w-[1100px] mx-auto px-4 sm:px-6 py-16">
+      <section id="platform-overview" className="max-w-[1100px] mx-auto px-4 sm:px-6 py-16" aria-labelledby="platform-overview-heading">
         <div className="text-center mb-12">
-          <h2 className="text-2xl font-bold tracking-tight mb-3">
+          <h2 id="platform-overview-heading" className="text-2xl font-bold tracking-tight mb-3">
             Platform Overview
           </h2>
           <p className="text-sm text-muted-foreground max-w-[500px] mx-auto">
@@ -200,7 +238,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Vessel Analytics Features ──────────────────────────────────────── */}
-      <section className="border-t border-border/30">
+      <section id="vessel-analytics" className="border-t border-border/30" aria-labelledby="vessel-analytics-heading">
         <div className="max-w-[1100px] mx-auto px-4 sm:px-6 py-16">
           <div className="flex items-center gap-3 mb-3">
             <div className="size-8 rounded-lg bg-[hsl(210,70%,50%)]/10 border border-[hsl(210,70%,50%)]/20 flex items-center justify-center">
@@ -211,12 +249,12 @@ export default function HomePage() {
                 <rect width="7" height="5" x="3" y="16" rx="1" />
               </svg>
             </div>
-            <h2 className="text-xl font-bold tracking-tight">
-              Vessel Analytics
+            <h2 id="vessel-analytics-heading" className="text-xl font-bold tracking-tight">
+              Vessel Performance Analytics
             </h2>
           </div>
           <p className="text-sm text-muted-foreground mb-10 max-w-[600px]">
-            Comprehensive performance monitoring derived directly from your operational noon reports.
+            Comprehensive vessel performance analytics derived directly from operational noon reports — fuel trends, speed analysis, weather overlays, and voyage KPI tracking.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -245,7 +283,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Route Intelligence Features ────────────────────────────────────── */}
-      <section className="border-t border-border/30">
+      <section id="route-intelligence" className="border-t border-border/30" aria-labelledby="route-intelligence-heading">
         <div className="max-w-[1100px] mx-auto px-4 sm:px-6 py-16">
           <div className="flex items-center gap-3 mb-3">
             <div className="size-8 rounded-lg bg-[hsl(210,70%,50%)]/10 border border-[hsl(210,70%,50%)]/20 flex items-center justify-center">
@@ -255,12 +293,12 @@ export default function HomePage() {
                 <path d="M2 12h20" />
               </svg>
             </div>
-            <h2 className="text-xl font-bold tracking-tight">
-              Route Intelligence
+            <h2 id="route-intelligence-heading" className="text-xl font-bold tracking-tight">
+              Maritime Route Intelligence
             </h2>
           </div>
           <p className="text-sm text-muted-foreground mb-10 max-w-[600px]">
-            Data-driven route recommendations based on verified historical shipping corridors and Admiralty distances.
+            Data-driven maritime route analytics based on verified historical shipping corridors, Admiralty distances, and weather risk modeling.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -289,7 +327,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Upload Workflow ─────────────────────────────────────────────────── */}
-      <section className="border-t border-border/30 bg-gradient-to-b from-muted/10 to-transparent">
+      <section id="upload-workflow" className="border-t border-border/30 bg-gradient-to-b from-muted/10 to-transparent">
         <div className="max-w-[900px] mx-auto px-4 sm:px-6 py-16 text-center">
           <h2 className="text-2xl font-bold tracking-tight mb-3">
             Upload Workflow
@@ -360,7 +398,7 @@ export default function HomePage() {
               <img 
                 src="/logo.png" 
                 className="h-8 w-auto object-contain" 
-                alt="V-PRO Logo" 
+                alt="VPRO Maritime Analytics Platform Logo" 
               />
               <div>
                 <p className="text-sm font-bold tracking-tight">VPRO</p>
@@ -377,24 +415,49 @@ export default function HomePage() {
               <Link to="/route-planner" className="hover:text-foreground transition-colors">Route Planner</Link>
             </div>
 
-            {/* Meta */}
-            <div className="text-center sm:text-right">
-              <p className="text-[11px] text-muted-foreground/60">
-                Powered by{" "}
-                <a 
-                  href="https://asmitlabs.me" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+            {/* Entity attribution + Social */}
+            <div className="text-center sm:text-right space-y-1.5">
+              <p className="text-[11px] text-muted-foreground/70 leading-snug">
+                VPRO is part of the{" "}
+                <a
+                  href="https://asmitlabs.me"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-[hsl(210,70%,60%)] hover:text-[hsl(210,70%,50%)] font-semibold transition-colors"
                 >
-                  Asmit Labs
-                </a>
+                  AsmitLabs
+                </a>{" "}
+                technology ecosystem created by Asmit Bhandari.
               </p>
-              <p className="text-[11px] text-muted-foreground/60 mt-0.5">
+              <div className="flex items-center justify-center sm:justify-end gap-3">
+                <a
+                  href="https://github.com/AsmitBhandari"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Asmit Bhandari on GitHub"
+                  className="text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4">
+                    <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/asmit-bhandari-841578331/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Asmit Bhandari on LinkedIn"
+                  className="text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                </a>
+              </div>
+              <p className="text-[11px] text-muted-foreground/60">
                 Deployed on <span className="text-muted-foreground font-medium">vpro.asmitlabs.me</span>
               </p>
-              <p className="text-[10px] text-muted-foreground/40 mt-0.5">
-                © {new Date().getFullYear()} VPRO. All rights reserved.
+              <p className="text-[10px] text-muted-foreground/40">
+                &copy; {new Date().getFullYear()} VPRO. All rights reserved.
               </p>
             </div>
           </div>

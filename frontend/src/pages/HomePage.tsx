@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { usePageTitle } from "@/hooks/usePageTitle";
 
-// ── Capability Item ─────────────────────────────────────────────────────────
+
 
 function CapabilityTag({ label }: { label: string }) {
   return (
@@ -14,7 +14,7 @@ function CapabilityTag({ label }: { label: string }) {
   );
 }
 
-// ── Feature Card ────────────────────────────────────────────────────────────
+//  ── Feature Card ────────────────────────────────────────────────────────────
 
 function FeatureCard({
   icon,

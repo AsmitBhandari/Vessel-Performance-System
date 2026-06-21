@@ -236,7 +236,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* Severe Weather Threshold */}
+        {/* Severe Weather Threshold  */}
         <div className="space-y-1">
           <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Severe BF</label>
           <input

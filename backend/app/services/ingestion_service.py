@@ -2,10 +2,10 @@
 Ingestion service — handles UPSERT of parsed daily reports into PostgreSQL.
 
 Responsibilities:
-  - Get-or-create Vessel records
-  - Convert lat/lng strings to decimal degrees
-  - UPSERT daily reports (latest upload wins)
-  - Track ingestion statistics (inserted / updated / duplicates)
+  - Get-or-create Vessel records. 
+  - Convert lat/lng strings to decimal degrees. 
+  - UPSERT daily reports (latest upload wins). 
+  - Track ingestion statistics (inserted / updated / duplicates). 
 """
 
 import datetime

@@ -5,7 +5,7 @@ Test script for verifying Phase 5 Operational Insights calculations and sorting.
 import sys
 import os
 
-# Add backend directory to python path
+# Add backend directory to python path. 
 backend_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(backend_dir)
 

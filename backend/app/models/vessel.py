@@ -22,7 +22,7 @@ class Vessel(Base):
         nullable=False,
     )
 
-    # Relationships
+    # Relationships. 
     voyages = relationship("Voyage", back_populates="vessel", lazy="dynamic")
     reports = relationship("DailyReport", back_populates="vessel", lazy="dynamic")
 

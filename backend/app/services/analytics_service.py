@@ -8,7 +8,7 @@ from typing import Any, Dict, List, Optional
 from app.models.daily_report import DailyReport
 
 
-# ── Operational Condition Helpers ─────────────────────────────────────────────
+# ── Operational Condition Helpers.  ─────────────────────────────────────────────
 
 def is_underway(report: DailyReport) -> bool:
     """Determine if the vessel was underway / steaming for a report day."""
@@ -45,7 +45,7 @@ def is_loaded(report: DailyReport) -> bool:
     return any(x in cond for x in ["LOAD", "LADEN"])
 
 
-# ── Analytics Computations ───────────────────────────────────────────────────
+# ── Analytics Computations.  ───────────────────────────────────────────────────
 
 def compute_vessel_overview(vessel_name: str, reports: List[DailyReport]) -> Dict[str, Any]:
     """Calculate reporting coverage and span for the vessel."""
@@ -89,7 +89,7 @@ def compute_voyage_performance(reports: List[DailyReport]) -> Dict[str, Any]:
 
     total_distance = sum(r.distance_sailed for r in reports if r.distance_sailed is not None)
 
-    # Filter reports for underway/steaming speed calculations
+    # Filter reports for underway/steaming speed calculations. 
     steaming_reports = [r for r in reports if is_underway(r)]
     speeds = [r.speed_last_24hrs for r in steaming_reports if r.speed_last_24hrs is not None and r.speed_last_24hrs > 0]
     
@@ -257,7 +257,7 @@ def compute_weather_analytics(reports: List[DailyReport], severe_threshold: floa
 
 
 def compute_machinery_analytics(reports: List[DailyReport]) -> Dict[str, Any]:
-    """Calculate running hours of auxiliary engines."""
+    """Calculate running hours of  auxiliary engines."""
     if not reports:
         return {
             "ae1TotalRunningHours": 0.0,

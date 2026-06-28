@@ -25,7 +25,7 @@ class Port(Base):
         nullable=False,
     )
 
-    # Relationships
+    # Relationships. 
     origin_routes = relationship(
         "HistoricalRoute",
         foreign_keys="HistoricalRoute.origin_port_id",

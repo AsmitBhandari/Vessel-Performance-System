@@ -39,7 +39,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS
+# CORS. 
 cors_origins_env = os.getenv("CORS_ORIGINS", "*")
 cors_origins = [origin.strip() for origin in cors_origins_env.split(",") if origin.strip()]
 
@@ -54,7 +54,7 @@ app.add_middleware(
 )
 
 
-# Routers
+# Routers. 
 app.include_router(health_router)
 app.include_router(upload_router)
 app.include_router(parser_router)

@@ -277,4 +277,11 @@ async def send_message(
             "data": ""
         }
 
-    return EventSourceResponse(sse_generator())
+    return EventSourceResponse(
+        sse_generator(),
+        headers={
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "X-Accel-Buffering": "no",
+            "Connection": "keep-alive",
+        }
+    )

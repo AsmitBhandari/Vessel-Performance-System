@@ -303,7 +303,6 @@ export async function sendChatMessage(
         const dataStr = dataLines.join("\n");
 
         if (eventType === "chunk") {
-          console.log("[Stream Debug api.ts] onChunk with:", dataStr);
           callbacks.onChunk(dataStr);
         } else if (eventType === "info") {
           try {
@@ -312,11 +311,9 @@ export async function sendChatMessage(
             console.error("Failed to parse info meta", e);
           }
         } else if (eventType === "done") {
-          console.log("[Stream Debug api.ts] done event received");
           callbacks.onDone();
           hasCalledDone = true;
         } else if (eventType === "error") {
-          console.error("[Stream Debug api.ts] error event received:", dataStr);
           callbacks.onError(dataStr);
         }
       }
@@ -344,7 +341,6 @@ export async function sendChatMessage(
           const dataStr = dataLines.join("\n");
 
           if (eventType === "chunk") {
-            console.log("[Stream Debug api.ts] onChunk (remaining) with:", dataStr);
             callbacks.onChunk(dataStr);
           } else if (eventType === "info") {
             try {
@@ -353,11 +349,9 @@ export async function sendChatMessage(
               console.error("Failed to parse info meta", e);
             }
           } else if (eventType === "done") {
-            console.log("[Stream Debug api.ts] done event (remaining) received");
             callbacks.onDone();
             hasCalledDone = true;
           } else if (eventType === "error") {
-            console.error("[Stream Debug api.ts] error event (remaining) received:", dataStr);
             callbacks.onError(dataStr);
           }
         }

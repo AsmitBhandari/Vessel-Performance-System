@@ -44,6 +44,13 @@ export default function ChatPage() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const skipLoadMessagesRef = useRef(false);
+  const isSendingRef = useRef(false);
+  const currentSessionRef = useRef<ChatSession | null>(null);
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    currentSessionRef.current = currentSession;
+  }, [currentSession]);
 
   // Load initial data
   useEffect(() => {
@@ -58,6 +65,12 @@ export default function ChatPage() {
     if (currentSession) {
       if (skipLoadMessagesRef.current) {
         skipLoadMessagesRef.current = false;
+        setSelectedVesselId(currentSession.vesselId);
+        setActiveMeta(null);
+        return;
+      }
+      // Don't overwrite messages if we're currently streaming
+      if (isSendingRef.current) {
         setSelectedVesselId(currentSession.vesselId);
         setActiveMeta(null);
         return;
@@ -81,11 +94,23 @@ export default function ChatPage() {
     try {
       const data = await getChatSessions();
       setSessions(data);
-      if (data.length > 0 && !currentSession) {
+      // Only auto-select first session if none is currently selected
+      // Use the ref to avoid stale closure issues
+      if (data.length > 0 && !currentSessionRef.current) {
         setCurrentSession(data[0]);
       }
     } catch (err) {
       console.error("Failed to load chat sessions", err);
+    }
+  };
+
+  // Safe version that only refreshes the sidebar list, never touches currentSession
+  const refreshSessionsList = async () => {
+    try {
+      const data = await getChatSessions();
+      setSessions(data);
+    } catch (err) {
+      console.error("Failed to refresh sessions list", err);
     }
   };
 
@@ -142,6 +167,7 @@ export default function ChatPage() {
     const userMessageContent = inputMessage.trim();
     setInputMessage("");
     setIsSending(true);
+    isSendingRef.current = true;
 
     // Optimistically add user message to state
     const tempUserMsg: ChatMessage = {
@@ -185,8 +211,9 @@ export default function ChatPage() {
           setActiveMeta(meta);
         },
         onDone: () => {
+          isSendingRef.current = false;
           setIsSending(false);
-          loadSessions(); // Reload sessions to update titles and timestamps
+          refreshSessionsList(); // Only refresh sidebar, never re-set currentSession
         },
         onError: (err) => {
           setIsSending(false);

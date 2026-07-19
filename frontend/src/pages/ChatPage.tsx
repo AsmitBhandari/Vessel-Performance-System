@@ -164,7 +164,11 @@ export default function ChatPage() {
       vesselId: selectedVesselId,
       createdAt: new Date().toISOString(),
     };
-    setMessages((prev) => [...prev, tempAssistantMsg]);
+    console.log("[Stream Debug] Created placeholder message with ID:", tempAssistantMsgId);
+    setMessages((prev) => {
+      console.log("[Stream Debug] Adding placeholder. Prev IDs:", prev.map(m => m.id));
+      return [...prev, tempAssistantMsg];
+    });
 
     let streamBuffer = "";
 
@@ -175,16 +179,19 @@ export default function ChatPage() {
       {
         onChunk: (chunk) => {
           streamBuffer += chunk;
-          setMessages((prev) =>
-            prev.map((msg) =>
+          setMessages((prev) => {
+            const hasMsg = prev.some(m => m.id === tempAssistantMsgId);
+            console.log("[Stream Debug] onChunk. Has placeholder:", hasMsg, "IDs:", prev.map(m => m.id));
+            return prev.map((msg) =>
               msg.id === tempAssistantMsgId ? { ...msg, content: streamBuffer } : msg
-            )
-          );
+            );
+          });
         },
         onInfo: (meta) => {
           setActiveMeta(meta);
         },
         onDone: () => {
+          console.log("[Stream Debug] Stream done.");
           setIsSending(false);
           loadSessions(); // Reload sessions to update titles and timestamps
         },

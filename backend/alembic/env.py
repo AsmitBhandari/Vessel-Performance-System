@@ -18,8 +18,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 # access to the values within the .ini file in use.
 config = context.config
 
-# Override sqlalchemy.url from environment variable
-config.set_main_option("sqlalchemy.url", os.getenv("DATABASE_URL", ""))
+# Override sqlalchemy.url from environment variable (prioritize DIRECT_URL for migrations)
+config.set_main_option("sqlalchemy.url", os.getenv("DIRECT_URL") or os.getenv("DATABASE_URL", ""))
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -33,6 +33,8 @@ from app.models.voyage import Voyage  # noqa: F401
 from app.models.daily_report import DailyReport  # noqa: F401
 from app.models.port import Port  # noqa: F401
 from app.models.historical_route import HistoricalRoute  # noqa: F401
+from app.models.chat_session import ChatSession  # noqa: F401
+from app.models.chat_message import ChatMessage  # noqa: F401
 
 target_metadata = Base.metadata
 

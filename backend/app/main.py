@@ -15,8 +15,10 @@ from app.api.reports import router as reports_router
 from app.api.analytics import router as analytics_router
 from app.api.routes import router as routes_router
 from app.api.route_planner import router as route_planner_router
+from app.api.chat import router as chat_router
 
 load_dotenv()
+
 
 
 @asynccontextmanager
@@ -40,17 +42,16 @@ app = FastAPI(
 )
 
 # CORS. 
-cors_origins_env = os.getenv("CORS_ORIGINS", "*")
+cors_origins_env = os.getenv("CORS_ORIGINS", "http://localhost:5173")
 cors_origins = [origin.strip() for origin in cors_origins_env.split(",") if origin.strip()]
-
-allow_all = "*" in cors_origins
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"] if allow_all else cors_origins,
-    allow_credentials=not allow_all,
+    allow_origins=cors_origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 
@@ -63,4 +64,5 @@ app.include_router(reports_router)
 app.include_router(analytics_router)
 app.include_router(routes_router)
 app.include_router(route_planner_router)
+app.include_router(chat_router)
 

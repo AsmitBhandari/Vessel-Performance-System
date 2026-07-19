@@ -28,3 +28,6 @@ build/
 .pytest_cache/
 htmlcov/
 .coverage
+
+# Local scratch and test scripts
+scratch/

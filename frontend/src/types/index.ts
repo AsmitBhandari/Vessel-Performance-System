@@ -225,4 +225,27 @@ export interface RoutePlanResult {
   message?: string;
 }
 
+export interface ChatSession {
+  id: number;
+  title: string;
+  vesselId: number | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ChatMessage {
+  id: number;
+  sessionId: number;
+  role: "user" | "assistant";
+  content: string;
+  vesselId: number | null;
+  createdAt: string;
+}
+
+export interface ChatRequest {
+  content: string;
+  vesselId?: number;
+}
+
+
 

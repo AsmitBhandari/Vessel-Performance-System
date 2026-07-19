@@ -15,9 +15,24 @@ import type {
   PortInfo,
   RoutePlanResult,
 } from "@/types";
+import { supabase } from "@/lib/supabaseClient";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+});
+
+// Attach Supabase access token to every outgoing request
+api.interceptors.request.use(async (config) => {
+  try {
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  } catch (error) {
+    console.error("Error setting auth header", error);
+  }
+  return config;
 });
 
 // ── Upload (Phase 1 — preserved) ────────────────────────────────────────────
@@ -191,6 +206,165 @@ export async function planRoute(
     destinationPortId,
   });
   return res.data.data;
+}
+
+// ── AI Chat Assistant API ────────────────────────────────────────────────────
+
+import type { ChatSession, ChatMessage } from "@/types";
+
+export async function getChatSessions(): Promise<ChatSession[]> {
+  const res = await api.get<Envelope<ChatSession[]>>("/api/chat/sessions");
+  return res.data.data;
+}
+
+export async function createChatSession(vesselId?: number | null): Promise<ChatSession> {
+  const res = await api.post<Envelope<ChatSession>>("/api/chat/sessions", {
+    vesselId: vesselId || null,
+  });
+  return res.data.data;
+}
+
+export async function deleteChatSession(sessionId: number): Promise<void> {
+  await api.delete(`/api/chat/sessions/${sessionId}`);
+}
+
+export async function getChatMessages(sessionId: number): Promise<ChatMessage[]> {
+  const res = await api.get<Envelope<ChatMessage[]>>(`/api/chat/sessions/${sessionId}/messages`);
+  return res.data.data;
+}
+
+export async function sendChatMessage(
+  sessionId: number,
+  content: string,
+  vesselId: number | null,
+  callbacks: {
+    onChunk: (text: string) => void;
+    onInfo: (meta: { vesselId: number | null; startDate: string | null; endDate: string | null; tools: string[] }) => void;
+    onDone: () => void;
+    onError: (err: string) => void;
+  }
+): Promise<void> {
+  try {
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/chat/sessions/${sessionId}/messages`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ content, vesselId }),
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(errText || `Server error: ${response.status}`);
+    }
+
+    const reader = response.body?.getReader();
+    const decoder = new TextDecoder();
+    if (!reader) {
+      throw new Error("Response body is not readable.");
+    }
+
+    let buffer = "";
+    let hasCalledDone = false;
+
+    while (true) {
+      const { value, done } = await reader.read();
+
+      if (value) {
+        buffer += decoder.decode(value, { stream: true });
+      }
+
+      const blocks = buffer.split("\n\n");
+      buffer = blocks.pop() || ""; // retain incomplete block
+
+      for (const block of blocks) {
+        const trimmedBlock = block.trim();
+        if (!trimmedBlock) continue;
+
+        let eventType = "message";
+        const dataLines: string[] = [];
+        const lines = trimmedBlock.split("\n");
+        for (const line of lines) {
+          if (line.startsWith("event:")) {
+            eventType = line.replace("event:", "").trim();
+          } else if (line.startsWith("data:")) {
+            const dataVal = line.substring(5);
+            dataLines.push(dataVal.startsWith(" ") ? dataVal.substring(1) : dataVal);
+          }
+        }
+        const dataStr = dataLines.join("\n");
+
+        if (eventType === "chunk") {
+          callbacks.onChunk(dataStr);
+        } else if (eventType === "info") {
+          try {
+            callbacks.onInfo(JSON.parse(dataStr));
+          } catch (e) {
+            console.error("Failed to parse info meta", e);
+          }
+        } else if (eventType === "done") {
+          callbacks.onDone();
+          hasCalledDone = true;
+        } else if (eventType === "error") {
+          callbacks.onError(dataStr);
+        }
+      }
+
+      if (done) {
+        // Decode any remaining data
+        const finalChunk = decoder.decode();
+        if (finalChunk) {
+          buffer += finalChunk;
+        }
+
+        const remaining = buffer.trim();
+        if (remaining) {
+          let eventType = "message";
+          const dataLines: string[] = [];
+          const lines = remaining.split("\n");
+          for (const line of lines) {
+            if (line.startsWith("event:")) {
+              eventType = line.replace("event:", "").trim();
+            } else if (line.startsWith("data:")) {
+              const dataVal = line.substring(5);
+              dataLines.push(dataVal.startsWith(" ") ? dataVal.substring(1) : dataVal);
+            }
+          }
+          const dataStr = dataLines.join("\n");
+
+          if (eventType === "chunk") {
+            callbacks.onChunk(dataStr);
+          } else if (eventType === "info") {
+            try {
+              callbacks.onInfo(JSON.parse(dataStr));
+            } catch (e) {
+              console.error("Failed to parse info meta", e);
+            }
+          } else if (eventType === "done") {
+            callbacks.onDone();
+            hasCalledDone = true;
+          } else if (eventType === "error") {
+            callbacks.onError(dataStr);
+          }
+        }
+
+        if (!hasCalledDone) {
+          callbacks.onDone();
+        }
+        break;
+      }
+    }
+  } catch (err: any) {
+    callbacks.onError(err.message || "Connection failed.");
+  }
 }
 
 export default api;

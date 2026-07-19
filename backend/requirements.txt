@@ -6,3 +6,8 @@ psycopg2-binary
 python-dotenv
 alembic
 openpyxl
+python-jose[cryptography]
+sse-starlette
+google-genai
+openai
+

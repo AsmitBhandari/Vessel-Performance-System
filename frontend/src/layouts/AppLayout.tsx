@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { NavLink, Link, Outlet } from "react-router-dom";
 import ScrollToTop from "@/components/ScrollToTop";
 import { useAuth } from "@/contexts/AuthContext";
-import { LogOut } from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 
 // ── Navigation Links ────────────────────────────────────────────────────────
 
@@ -17,6 +18,7 @@ const NAV_LINKS = [
 
 export default function AppLayout() {
   const { user, isAuthenticated, signOut } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="dark min-h-screen bg-background text-foreground flex flex-col">
@@ -42,8 +44,8 @@ export default function AppLayout() {
             </div>
           </NavLink>
 
-          {/* Center Navigation Links & Right Auth State */}
-          <div className="flex items-center gap-4">
+          {/* Desktop Navigation Links & Right Auth State */}
+          <div className="hidden md:flex items-center gap-4">
             <nav className="flex items-center gap-0.5">
               {NAV_LINKS.map((link) => (
                 <NavLink
@@ -77,7 +79,7 @@ export default function AppLayout() {
             <div className="flex items-center gap-2">
               {isAuthenticated ? (
                 <div className="flex items-center gap-2">
-                  <div className="hidden md:flex flex-col items-end text-right">
+                  <div className="flex flex-col items-end text-right">
                     <span className="text-xs font-semibold leading-none text-foreground">
                       {user?.user_metadata?.full_name || "User"}
                     </span>
@@ -106,7 +108,65 @@ export default function AppLayout() {
               )}
             </div>
           </div>
+
+          {/* Mobile Right Bar: Hamburger Menu Button */}
+          <div className="flex md:hidden items-center gap-2">
+            {isAuthenticated && (
+              <div className="h-8 w-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-bold text-xs uppercase">
+                {(user?.user_metadata?.full_name || user?.email || "U")[0]}
+              </div>
+            )}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 text-muted-foreground hover:text-foreground rounded-md focus:outline-none"
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Dropdown Navigation */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-border/40 bg-background px-4 py-3 space-y-1 animate-in slide-in-from-top-2 duration-200">
+            {NAV_LINKS.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                end={link.end ?? false}
+                onClick={() => setMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-md text-sm font-medium transition-all ${
+                    isActive
+                      ? "text-primary font-semibold bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
+            <div className="pt-2 border-t border-border/40 flex items-center justify-between">
+              {isAuthenticated ? (
+                <button
+                  onClick={() => { setMobileMenuOpen(false); signOut(); }}
+                  className="flex items-center gap-2 text-xs font-semibold text-destructive hover:underline py-1"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign Out ({user?.email})
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full text-center px-3 py-2 bg-primary text-primary-foreground font-semibold rounded-md text-xs"
+                >
+                  Sign In
+                </Link>
+              )}
+            </div>
+          </div>
+        )}
       </header>
 
       {/* ── Main Viewport ───────────────────────────────────────────────── */}

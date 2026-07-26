@@ -102,3 +102,7 @@ coverage.xml
 *.env
 /frontend/.env
 /backend/.env
+
+# Local scratch files
+scratch/
+/backend/scratch/

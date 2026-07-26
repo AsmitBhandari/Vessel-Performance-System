@@ -18,14 +18,14 @@ export const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "dashboard", element: <DashboardPage /> },
-      { path: "upload", element: <UploadReportPage /> },
-      { path: "route-planner", element: <RoutePlannerPage /> },
       { path: "login", element: <LoginPage /> },
       { path: "signup", element: <SignUpPage /> },
       {
         element: <ProtectedRoute />,
         children: [
+          { path: "dashboard", element: <DashboardPage /> },
+          { path: "upload", element: <UploadReportPage /> },
+          { path: "route-planner", element: <RoutePlannerPage /> },
           { path: "chat", element: <ChatPage /> },
         ],
       },

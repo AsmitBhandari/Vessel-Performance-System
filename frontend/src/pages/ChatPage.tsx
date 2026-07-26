@@ -22,6 +22,7 @@ import {
   Anchor,
   Calendar,
   Wrench,
+  PanelLeft,
 } from "lucide-react";
 
 export default function ChatPage() {
@@ -32,6 +33,7 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [vessels, setVessels] = useState<VesselInfo[]>([]);
   const [selectedVesselId, setSelectedVesselId] = useState<number | null>(null);
+  const [showMobileSidebar, setShowMobileSidebar] = useState(false);
   
   const [inputMessage, setInputMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -128,6 +130,7 @@ export default function ChatPage() {
       const newSession = await createChatSession(selectedVesselId);
       setSessions((prev) => [newSession, ...prev]);
       setCurrentSession(newSession);
+      setShowMobileSidebar(false);
     } catch (err) {
       console.error("Failed to create session", err);
     }
@@ -236,10 +239,12 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-3.5rem)] bg-background text-foreground overflow-hidden">
+    <div className="flex h-[calc(100vh-3.5rem)] bg-background text-foreground overflow-hidden relative">
       {/* ── Left Sidebar: Chat Sessions ── */}
-      <aside className="w-64 border-r border-border/50 bg-card/30 flex flex-col shrink-0">
-        <div className="p-3 border-b border-border/50">
+      <aside className={`${
+        showMobileSidebar ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+      } absolute md:relative z-20 w-64 h-full border-r border-border/50 bg-card backdrop-blur-md md:bg-card/30 flex flex-col shrink-0 transition-transform duration-200 ease-in-out`}>
+        <div className="p-3 border-b border-border/50 flex items-center justify-between">
           <Button
             onClick={handleCreateSession}
             className="w-full flex items-center justify-center gap-2 text-xs font-semibold"
@@ -258,7 +263,7 @@ export default function ChatPage() {
             sessions.map((s) => (
               <div
                 key={s.id}
-                onClick={() => setCurrentSession(s)}
+                onClick={() => { setCurrentSession(s); setShowMobileSidebar(false); }}
                 className={`group flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium cursor-pointer transition-all duration-200 ${
                   currentSession?.id === s.id
                     ? "bg-primary/15 text-foreground font-semibold"
@@ -281,12 +286,27 @@ export default function ChatPage() {
         </div>
       </aside>
 
+      {/* Backdrop for mobile sidebar */}
+      {showMobileSidebar && (
+        <div 
+          onClick={() => setShowMobileSidebar(false)} 
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-10 md:hidden"
+        />
+      )}
+
       {/* ── Main Chat Screen ── */}
       <main className="flex-1 flex flex-col bg-background/50 overflow-hidden relative">
         {/* Top Control Bar */}
         <div className="h-14 border-b border-border/50 bg-card/25 backdrop-blur-sm px-4 flex items-center justify-between shrink-0 z-10">
           <div className="flex items-center gap-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <button
+              onClick={() => setShowMobileSidebar(!showMobileSidebar)}
+              className="p-1.5 md:hidden text-muted-foreground hover:text-foreground rounded-md hover:bg-muted/50 transition-colors"
+              title="Toggle Conversations"
+            >
+              <PanelLeft className="h-4 w-4" />
+            </button>
+            <h2 className="text-xs font-bold uppercase tracking-wider text-muted-foreground hidden sm:inline">
               Vessel Context:
             </h2>
             <select
@@ -295,11 +315,10 @@ export default function ChatPage() {
                 const val = e.target.value ? Number(e.target.value) : null;
                 setSelectedVesselId(val);
                 if (currentSession) {
-                  // Keep UI selection and session context in sync
                   currentSession.vesselId = val;
                 }
               }}
-              className="bg-background/80 border border-border/60 rounded-md px-2 py-1 text-xs font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
+              className="bg-background/80 border border-border/60 rounded-md px-2 py-1 text-xs font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary max-w-[180px] sm:max-w-none"
             >
               <option value="">All Vessels / Auto-Detect</option>
               {vessels.map((v) => (

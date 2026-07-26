@@ -24,7 +24,7 @@ export default function LoginPage() {
         password,
       });
       if (error) throw error;
-      navigate("/");
+      navigate("/dashboard");
     } catch (err: any) {
       setError(err.message || "Invalid email or password");
     } finally {

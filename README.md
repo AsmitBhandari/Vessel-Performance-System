@@ -12,7 +12,7 @@ Live Demo: https://vpro.asmitlabs.me
 
 ## Demo Video
 
-Demo Video: [YouTube Unlisted Demo Video - To Be Added]
+Demo Video: Not required for the current TBI-GEU submission.
 
 ---
 

@@ -18,9 +18,6 @@ Demo Video: Not required for the current TBI-GEU submission.
 
 ## Screenshots
 
-> [!NOTE]
-> Screenshots will be placed in the `docs/screenshots/` directory.
-
 ![VPRO Landing Page](docs/screenshots/landing-page.png)
 *VPRO Landing Page - Platform overview and core features*
 
